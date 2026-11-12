@@ -1,1 +1,19 @@
-data/instances_train2017.json   
+__pycache__/
+*.py[cod]
+*.so
+.venv/
+venv/
+.env
+.idea/
+.vscode/
+.ipynb_checkpoints/
+*.DS_Store
+
+# Data, images and experiment outputs are large: never commit them
+data/images/
+data/*.tar
+data
+outputs/
+*.png
+*.jpg
+*.jpeg
