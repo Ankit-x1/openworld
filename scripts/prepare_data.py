@@ -143,7 +143,8 @@ def main():
     # 4. Validation: all val images with at least one annotation of any of 20 classes
     val_coco = COCO(val_ann)
     val_ann_ids = val_coco.getAnnIds(catIds=all_cat_ids)
--    val_ids = sorted({int(a["image_id"]) for a in val_ann_ids})
+    val_anns = val_coco.loadAnns(val_ann_ids)
+    val_ids = sorted({int(a["image_id"]) for a in val_anns})
     max_val = args.max_val_images or cfg["validation"]["max_val_images"]
     if len(val_ids) > max_val:
         rng.shuffle(val_ids)
