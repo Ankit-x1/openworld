@@ -9,10 +9,9 @@ venv/
 .ipynb_checkpoints/
 *.DS_Store
 
-# Data, images and experiment outputs are large: never commit them
+# Large artifacts: never commit
 data/images/
 data/*.tar
-data
 outputs/
 *.png
 *.jpg
