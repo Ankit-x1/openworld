@@ -63,7 +63,7 @@ train:
   print_freq: 50
 
 clip:
-  model: ViT-B-32
+  model: ViT-B-32-quickgelu
   pretrained: openai
   input_size: 224
   context_expansion: 0.2
