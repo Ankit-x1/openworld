@@ -1,0 +1,78 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1040" height="650" viewBox="0 0 1040 650" role="img" aria-labelledby="title desc">
+  <title id="title">Openworld experiment workflow</title>
+  <desc id="desc">The custom 20-class experiment trains a Faster R-CNN detector on 15 base classes, labels RPN proposals with frozen OpenCLIP across 20 classes, and evaluates with a custom AP50 evaluator. Ground-truth-box recognition and detector-only COCO evaluation are separate paths.</desc>
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#526581"/>
+    </marker>
+    <style>
+      text { font-family: "Segoe UI", Arial, sans-serif; fill: #17243a; }
+      .title { font-size: 25px; font-weight: 700; }
+      .subtitle { font-size: 14px; fill: #526581; }
+      .head { font-size: 16px; font-weight: 700; }
+      .body { font-size: 13px; }
+      .small { font-size: 12px; fill: #526581; }
+      .box { stroke-width: 1.5; rx: 12; }
+      .main { fill: #eef4ff; stroke: #5273a5; }
+      .clip { fill: #f0f8f3; stroke: #4a8b68; }
+      .eval { fill: #fff5e8; stroke: #c27b28; }
+      .side { fill: #f6f3fb; stroke: #8171a8; }
+      .line { stroke: #526581; stroke-width: 2; fill: none; marker-end: url(#arrow); }
+      .divider { stroke: #d7dfeb; stroke-width: 1; }
+    </style>
+  </defs>
+  <rect width="1040" height="650" fill="#ffffff"/>
+  <text x="40" y="46" class="title">Openworld: custom 20-class CPU experiment</text>
+  <text x="40" y="72" class="subtitle">COCO 2017 subset | 15 base classes | 5 novel classes | not the full OV-COCO benchmark</text>
+
+  <rect x="40" y="110" width="225" height="92" class="box main"/>
+  <text x="58" y="140" class="head">Base-only training data</text>
+  <text x="58" y="165" class="body">2,000 images | base labels only</text>
+  <text x="58" y="186" class="small">Novel objects may remain unlabeled</text>
+
+  <rect x="315" y="110" width="260" height="92" class="box main"/>
+  <text x="333" y="140" class="head">Faster R-CNN</text>
+  <text x="333" y="165" class="body">ResNet-50 + FPN | 3 CPU epochs</text>
+  <text x="333" y="186" class="small">ImageNet backbone; no COCO detector weights</text>
+
+  <rect x="625" y="110" width="170" height="92" class="box main"/>
+  <text x="643" y="140" class="head">RPN proposals</text>
+  <text x="643" y="165" class="body">Up to 1,000 / image</text>
+  <text x="643" y="186" class="small">objectness + boxes</text>
+
+  <rect x="845" y="110" width="155" height="92" class="box clip"/>
+  <text x="863" y="140" class="head">Top 100</text>
+  <text x="863" y="165" class="body">region crops</text>
+  <text x="863" y="186" class="small">per test image</text>
+
+  <path d="M265 156 H305" class="line"/>
+  <path d="M575 156 H615" class="line"/>
+  <path d="M795 156 H835" class="line"/>
+
+  <rect x="315" y="250" width="260" height="92" class="box clip"/>
+  <text x="333" y="280" class="head">Frozen OpenCLIP</text>
+  <text x="333" y="305" class="body">ViT-B-32-quickgelu | 20 text labels</text>
+  <text x="333" y="326" class="small">one class assigned to each proposal</text>
+  <path d="M922 202 V226 H445 V240" class="line"/>
+
+  <rect x="625" y="250" width="375" height="92" class="box clip"/>
+  <text x="643" y="280" class="head">Objectness x CLIP score fusion</text>
+  <text x="643" y="305" class="body">score = objectness^0.5 x class_probability^0.5</text>
+  <text x="643" y="326" class="small">alpha = 0.5 chosen on val-tune before test</text>
+  <path d="M575 296 H615" class="line"/>
+
+  <rect x="625" y="390" width="375" height="92" class="box eval"/>
+  <text x="643" y="420" class="head">Held-out test: custom RPN + CLIP evaluation</text>
+  <text x="643" y="445" class="body">1,500 images | 150,000 predictions</text>
+  <text x="643" y="466" class="small">class-aware 101-point AP | IoU &gt; 0.5</text>
+  <path d="M812 342 V380" class="line"/>
+
+  <line x1="40" y1="520" x2="1000" y2="520" class="divider"/>
+  <rect x="40" y="545" width="440" height="72" class="box side"/>
+  <text x="58" y="573" class="head">GT-box CLIP recognition (val-tune)</text>
+  <text x="58" y="598" class="body">Ground-truth boxes supplied: classification only, not detection AP.</text>
+
+  <rect x="520" y="545" width="480" height="72" class="box side"/>
+  <text x="538" y="573" class="head">Detector-only COCO evaluation (val-test)</text>
+  <text x="538" y="598" class="body">Separate 15-class evaluator; not directly comparable to custom AP.</text>
+</svg>
