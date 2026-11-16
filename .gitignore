@@ -16,5 +16,12 @@ outputs/
 *.png
 *.jpg
 *.jpeg
-data
-tests
+/data/*
+!/data/splits/
+/data/splits/*
+!/data/splits/train_image_ids.json
+!/data/splits/val_tune_image_ids.json
+!/data/splits/val_test_image_ids.json
+!/data/splits/selected_categories.json
+!/data/splits/split_metadata.json
+# Only these split manifests are allowed through the data ignore rule.
