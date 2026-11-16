@@ -16,3 +16,5 @@ outputs/
 *.png
 *.jpg
 *.jpeg
+data
+tests
