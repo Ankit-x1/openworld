@@ -1,0 +1,9 @@
+numpy
+Pillow
+opencv-python-headless
+matplotlib
+tqdm
+pyyaml
+open-clip-torch
+pycocotools
+pandas
