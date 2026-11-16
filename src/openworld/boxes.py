@@ -78,10 +78,10 @@ def encode(
     gcy = gt_boxes[:, 1] + 0.5 * gh
 
     wx, wy, ww, wh = weights
-    dx = (gcx - acx) / aw / wx
-    dy = (gcy - acy) / ah / wy
-    dw = torch.log(gw / aw) / ww
-    dh = torch.log(gh / ah) / wh
+    dx = (gcx - acx) / aw * wx
+    dy = (gcy - acy) / ah * wy
+    dw = torch.log(gw / aw) * ww
+    dh = torch.log(gh / ah) * wh
     return torch.stack([dx, dy, dw, dh], dim=1)
 
 
@@ -90,15 +90,15 @@ def decode(
 ) -> torch.Tensor:
     """Decode box-coder outputs back to xyxy boxes."""
     wx, wy, ww, wh = weights
-    dx = codes[..., 0::4] * wx
-    dy = codes[..., 1::4] * wy
-    dw = codes[..., 2::4] * ww
-    dh = codes[..., 3::4] * wh
+    dx = codes[..., 0::4] / wx
+    dy = codes[..., 1::4] / wy
+    dw = codes[..., 2::4] / ww
+    dh = codes[..., 3::4] / wh
 
-    aw = anchors[..., 2] - anchors[..., 0]
-    ah = anchors[..., 3] - anchors[..., 1]
-    acx = anchors[..., 0] + 0.5 * aw
-    acy = anchors[..., 1] + 0.5 * ah
+    aw = (anchors[..., 2] - anchors[..., 0]).unsqueeze(-1)
+    ah = (anchors[..., 3] - anchors[..., 1]).unsqueeze(-1)
+    acx = anchors[..., 0].unsqueeze(-1) + 0.5 * aw
+    acy = anchors[..., 1].unsqueeze(-1) + 0.5 * ah
 
     max_scale = math.log(1000.0 / 16.0)
     dw = dw.clamp(max=max_scale)
