@@ -101,9 +101,6 @@ notebooks or scripts.
 - The `alpha = 1.0` tuning result is not a useful CLIP classification
   baseline: under the implemented fusion formula all classes tie when CLIP
   probability is raised to zero.
-- Checkpoints, predictions, prepared data, and detailed metric JSONs are local
-  ignored artifacts; a GitHub clone cannot independently rerun the recorded
-  metrics without obtaining/generating them.
 - No project license file is present. Review licensing and attribution for
   project code, COCO annotations, and pretrained weights before inviting reuse.
 
